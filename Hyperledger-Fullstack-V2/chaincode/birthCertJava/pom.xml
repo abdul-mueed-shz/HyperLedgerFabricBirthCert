@@ -90,6 +90,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<directory>${basedir}/build/install/birthcert</directory>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
