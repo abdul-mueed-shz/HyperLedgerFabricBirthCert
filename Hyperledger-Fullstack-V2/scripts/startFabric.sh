@@ -27,7 +27,7 @@ pushd ../test-network
 #./network.sh deployCC -ccn chat-app -ccl ${CC_SRC_LANGUAGE} -ccp ${CC_SRC_PATH}
 # ./network.sh deployCC -ccn birthcert -ccp ../chaincode/birthCert -ccl javascript -ccv 1 -cci initLedger 
 # ./network.sh deployCC -ccn basic -ccp ../chaincode/birthCertJGrad -ccl java -ccv 1 -cci initLedger 
-./network.sh deployCC -ccn chat-app -ccl go -ccp ${CC_SRC_PATH}
+./network.sh deployCC -ccn legalContract -ccl go -ccp ${CC_SRC_PATH}
 popd
 
 # creating the connection profile for SDK
