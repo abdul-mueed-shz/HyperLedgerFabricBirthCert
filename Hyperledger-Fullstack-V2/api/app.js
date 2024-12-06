@@ -1,27 +1,27 @@
 
 'use strict';
 require('dotenv/config');
-let log4js = require('log4js');
-let logger = log4js.getLogger('SampleWebApp');
-let express = require('express');
-let bodyParser = require('body-parser');
-let util = require('util');
-let http = require('http');
-let app = express();
-let cors = require('cors');
-const _route = require('./src/routes/index');
-let expressJWT = require('express-jwt');
-let jwt = require('jsonwebtoken');
-let bearerToken = require('express-bearer-token');
+var log4js = require('log4js');
+var logger = log4js.getLogger('SampleWebApp');
+var express = require('express');
+var bodyParser = require('body-parser');
+var util = require('util');
+var http = require('http');
+var app = express();
+var cors = require('cors');
+const _route = require("./src/routes/index");
+var expressJWT = require('express-jwt');
+var jwt = require('jsonwebtoken');
+var bearerToken = require('express-bearer-token');
 require('./config.js');
-let hfc = require('fabric-client');
+var hfc = require('fabric-client');
 
 // var helper = require('./app/helper.js');
-let _admin = require('./app/Admin.js');
-let _userRegister = require('./app/UserRegister.js');
+var _admin = require('./app/Admin.js');
+var _userRegister = require('./app/UserRegister.js');
 // var invoke = require('./app/invoke-offline');
-let host = process.env.HOST || hfc.getConfigSetting('host');
-let port = process.env.PORT || hfc.getConfigSetting('port');
+var host = process.env.HOST || hfc.getConfigSetting('host');
+var port = process.env.PORT || hfc.getConfigSetting('port');
 // var port = 5050;
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// PROMETHEUS METRICS CONFIGURATION /////////////
@@ -39,71 +39,71 @@ let port = process.env.PORT || hfc.getConfigSetting('port');
 ///////////////////////////////////////////////////////////////////////////////
 app.use(cors());
 app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 //support parsing of application/json type post data
 app.use(bodyParser.json());
 //support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({
-    extended: false
+	extended: false
 }));
 
 //support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({
-    extended: false
+	extended: false
 }));
 // set secret variable
 app.set('secret', 'thisismysecret');
 app.use(expressJWT({
-    secret: 'thisismysecret'
+	secret: 'thisismysecret'
 }).unless({
-    path: ['/users', '/enrollAdmin']
+	path: ['/users', '/enrollAdmin']
 }));
 app.use(bearerToken());
 app.use(function (req, res, next) {
-    logger.debug(' ------>>>>>> new request for %s', req.originalUrl);
-    if (req.originalUrl.indexOf('/users') >= 0 || req.originalUrl.indexOf('/metrics') >= 0) {
-        return next();
-    }
+	logger.debug(' ------>>>>>> new request for %s', req.originalUrl);
+	if (req.originalUrl.indexOf('/users') >= 0 || req.originalUrl.indexOf('/metrics') >= 0) {
+		return next();
+	}
 
-    let token = req.token;
-    jwt.verify(token, app.get('secret'), function (err, decoded) {
-        if (err) {
-            res.send({
-                success: false,
-                message: 'Failed to authenticate token. Make sure to include the ' +
+	var token = req.token;
+	jwt.verify(token, app.get('secret'), function (err, decoded) {
+		if (err) {
+			res.send({
+				success: false,
+				message: 'Failed to authenticate token. Make sure to include the ' +
 					'token returned from /users call in the authorization header ' +
 					' as a Bearer token'
-            });
-            return;
-        } else {
-            // add the decoded user name and org name to the request object
-            // for the downstream code to use
-            req.username = decoded.username;
-            req.orgname = decoded.orgName;
-            logger.debug(util.format('Decoded from JWT token: username - %s, orgname - %s', decoded.username, decoded.orgName));
-            return next();
-        }
-    });
+			});
+			return;
+		} else {
+			// add the decoded user name and org name to the request object
+			// for the downstream code to use
+			req.username = decoded.username;
+			req.orgname = decoded.orgName;
+			logger.debug(util.format('Decoded from JWT token: username - %s, orgname - %s', decoded.username, decoded.orgName));
+			return next();
+		}
+	});
 });
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// START SERVER /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-let server = http.createServer(app).listen(port, function () { });
+var server = http.createServer(app).listen(port, function () { });
 logger.info('****************** SERVER STARTED ************************');
 logger.info('***************  http://%s:%s  ******************', host, port);
 server.timeout = 240000;
 
 function getErrorMessage(field) {
-    let response = {
-        success: false,
-        message: field + ' field is missing or Invalid in the request'
-    };
-    return response;
+	var response = {
+		success: false,
+		message: field + ' field is missing or Invalid in the request'
+	};
+	return response;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -112,52 +112,52 @@ function getErrorMessage(field) {
 // Register and enroll user
 app.post('/users', async function (req, res) {
 
-    console.log('\n - Enrolling user');
-    let username =  'User';
-    let orgName = 'Org1';
+    console.log("\n - Enrolling user")
+    var username =  "User";
+    var orgName = "Org1";
 
     if (!username) {
-        res.json(getErrorMessage('\'username\''));
-        return;
-    }
-    if (!orgName) {
-        res.json(getErrorMessage('\'orgName\''));
-        return;
-    }
+		res.json(getErrorMessage('\'username\''));
+		return;
+	}
+	if (!orgName) {
+		res.json(getErrorMessage('\'orgName\''));
+		return;
+	}
 
-    let token = jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
-        username: username,
-        orgName: orgName
-    }, app.get('secret'));
+    var token = jwt.sign({
+		exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
+		username: username,
+		orgName: orgName
+	}, app.get('secret'));
 
 
-    let result = await _userRegister.registerUser(username, orgName);
+    var result = await _userRegister.registerUser(username, orgName)
     logger.debug('-- returned from registering the username %s for organization %s', username, orgName);
-    if (result && typeof result !== 'string') {
-        logger.debug('Successfully registered the username %s for organization %s', username, orgName);
-        return res.status(200).json({
+	if (result && typeof result !== 'string') {
+		logger.debug('Successfully registered the username %s for organization %s', username, orgName);
+		return res.status(200).json({
             status: true,
-            message: 'user enrolled Successfully',
+            message: "user enrolled Successfully",
             token:token
-        });
-    } else {
-        logger.debug('Failed to register the username %s for organization %s with::%s', username, orgName, result);
-        res.json({ success: false, message: result });
-    }
+        })
+	} else {
+		logger.debug('Failed to register the username %s for organization %s with::%s', username, orgName, result);
+		res.json({ success: false, message: result });
+	}
 
 });
 
 app.post('/enrollAdmin', async (req, res) => {
-    console.log('\n - Enrolling admin');
-    let result = await _admin.enrollAdmin();
+    console.log("\n - Enrolling admin")
+    var result = await _admin.enrollAdmin()
     return res.status(200).json({
         status: 200,
-        message: 'Successfully registered the username %s for organization %s\', username, orgName',
+        message: "Successfully registered the username %s for organization %s', username, orgName",
         data:result
-    });
-});
+    })
+})
 
-app.use('/api/v1', _route);
+app.use("/api/v1", _route);
 
-module.exports = app;
+module.exports = app

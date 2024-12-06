@@ -14,7 +14,7 @@ CC_SRC_LANGUAGE=${1:-"go"}
 CC_SRC_LANGUAGE=`echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:]`
 
 if [ "$CC_SRC_LANGUAGE" = "go" -o "$CC_SRC_LANGUAGE" = "golang" ] ; then
-	CC_SRC_PATH="../chaincode/chat-chaincode/go/"
+	CC_SRC_PATH="../chaincode/legalcontract-chaincode/go/"
 fi
 
 # clean out any old identites in the wallets
@@ -27,7 +27,7 @@ pushd ../test-network
 #./network.sh deployCC -ccn chat-app -ccl ${CC_SRC_LANGUAGE} -ccp ${CC_SRC_PATH}
 # ./network.sh deployCC -ccn birthcert -ccp ../chaincode/birthCert -ccl javascript -ccv 1 -cci initLedger 
 # ./network.sh deployCC -ccn basic -ccp ../chaincode/birthCertJGrad -ccl java -ccv 1 -cci initLedger 
-./network.sh deployCC -ccn legalContract -ccl go -ccp ${CC_SRC_PATH}
+./network.sh deployCC -ccn legalContract -ccl ${CC_SRC_LANGUAGE} -ccp ${CC_SRC_PATH}
 popd
 
 # creating the connection profile for SDK
