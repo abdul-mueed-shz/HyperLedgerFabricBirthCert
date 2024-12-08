@@ -52,15 +52,17 @@ public class LegalcontractApplication {
                 .networkConfig(networkConfigFile);
 
         try (Gateway gateway = builder.connect()) {
-
+            System.setProperty("org.hyperledger.fabric.sdk.channel.block.delivery.timeout", "30000"); // 30 seconds
+            System.setProperty("grpc.NettyChannelBuilderOption.keepAliveTime", "120000"); // 2 minutes
+            System.setProperty("grpc.NettyChannelBuilderOption.keepAliveTimeout", "20000"); // 20 seconds
             Network network = gateway.getNetwork("mychannel");
-//            Contract contract = network.getContract("legalContract");
-//            byte[] createCarResult = contract.createTransaction("CreateContract")
-//                    .submit("1", "VW", "Polo", "213123");
+            Contract contract = network.getContract("legalContract");
+            byte[] createCarResult = contract.createTransaction("CreateContract")
+                    .submit("1123213124123", "VW", "Polo", "213123");
 //            System.out.println(new String(createCarResult, StandardCharsets.UTF_8));
 //            byte[] queryAllCarsResult = contract.evaluateTransaction("GetLegalContractCert");
 //            System.out.println(new String(queryAllCarsResult, StandardCharsets.UTF_8));
-
+            System.out.println(network);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -113,7 +115,7 @@ public class LegalcontractApplication {
             resourceFolderPath = Path.of(ClassLoader.getSystemResource(folderName).toURI());
         } else {
             // If the folder doesn't exist, create it in the target/classes directory
-            resourceFolderPath = Paths.get("target/classes", folderName);
+            resourceFolderPath = Paths.get("resources", folderName);
 
             // Ensure parent directories exist
             Files.createDirectories(resourceFolderPath);
