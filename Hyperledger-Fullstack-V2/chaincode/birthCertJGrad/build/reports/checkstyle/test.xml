@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<checkstyle version="8.21">
-<file name="/home/abdulmueedshahbaz/hyperledger/dev/full-stack-birth-certificate-app/Hyperledger-Fullstack-V2/chaincode/birthCertJGrad/src/test/java/org/hyperledger/fabric/samples/assettransfer/AssetTransferTest.java">
-</file>
-<file name="/home/abdulmueedshahbaz/hyperledger/dev/full-stack-birth-certificate-app/Hyperledger-Fullstack-V2/chaincode/birthCertJGrad/src/test/java/org/hyperledger/fabric/samples/assettransfer/AssetTest.java">
-</file>
-</checkstyle>

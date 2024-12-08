@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.hyperledger.fabric.samples.assettransfer.AssetTransferTest$DeleteAssetTransaction" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-04T07:20:31" hostname="DESKTOP-853GUBE" time="0.012">
-  <properties/>
-  <testcase name="whenAssetDoesNotExist()" classname="org.hyperledger.fabric.samples.assettransfer.AssetTransferTest$DeleteAssetTransaction" time="0.012"/>
-  <system-out><![CDATA[Asset asset1 does not exist
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
